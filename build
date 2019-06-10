@@ -1,0 +1,12 @@
+export KBUILD_BUILD_USER="svoboda18"
+export KBUILD_BUILD_HOST="BuildVM"
+export CROSS_COMPILE="$HOME/tc/bin/arm-eabi-"
+
+read -p "Do you want to clean" clean
+[ $clean = "y" ] && {
+make clean && make mrproper
+mkdir out
+}
+
+make ARCH=arm O=out s5_ultra_defconfig ; make ARCH=arm -j30 O=out ;
+
