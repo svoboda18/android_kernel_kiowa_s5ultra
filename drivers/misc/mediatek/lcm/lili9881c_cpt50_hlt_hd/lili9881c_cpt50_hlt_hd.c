@@ -27,8 +27,8 @@ static LCM_UTIL_FUNCS lcm_util;
 //  Local Constants
 // ---------------------------------------------------------------------------
 
-#define REGFLAG_DELAY             0xFE
-#define REGFLAG_END_OF_TABLE      (unsigned char)0x100  // END OF REGISTERS MARKER
+#define REGFLAG_DELAY             (0xFE)
+#define REGFLAG_END_OF_TABLE      (0x100)  // END OF REGISTERS MARKER
 
 // ---------------------------------------------------------------------------
 //  Local Variables
@@ -54,7 +54,7 @@ static LCM_UTIL_FUNCS lcm_util;
 // ---------------------------------------------------------------------------
 
 struct LCM_setting_table {
-    unsigned char cmd;
+    unsigned cmd;
     unsigned char count;
     unsigned char para_list[64];
 };
@@ -348,10 +348,10 @@ static void lcm_init(void)
   SET_RESET_PIN(1);
   MDELAY(10);
   SET_RESET_PIN(0);
-  MDELAY(5);
+  MDELAY(20);
   SET_RESET_PIN(1);
   MDELAY(120);
-   push_table(lcm_init_setting, sizeof(lcm_init_setting) / sizeof(struct LCM_setting_table), 1);
+  push_table(lcm_init_setting, sizeof(lcm_init_setting) / sizeof(struct LCM_setting_table), 1);
 }
 
 static void lcm_suspend(void)
@@ -372,7 +372,48 @@ static void lcm_resume(void)
 
 static unsigned int lcm_compare_id(void)
 {
-	return 1;
+        int array[4];
+        char buffer[5];
+        char id_high=0;
+        char id_midd=0;
+        char id_low=0;
+        //Do reset here
+        SET_RESET_PIN(1);
+        SET_RESET_PIN(0);
+        MDELAY(25);       
+        SET_RESET_PIN(1);
+        MDELAY(50);      
+       
+        array[0]=0x00043902;
+        array[1]=0x018198FF;
+        dsi_set_cmdq(array, 3, 1);
+        MDELAY(10);
+        array[0]=0x00023700;
+        dsi_set_cmdq(array, 1, 1);
+        //read_reg_v2(0x04, buffer, 3);
+    
+        read_reg_v2(0x00, buffer,1);
+        id_high = buffer[0]; ///////////////////////0x98
+        read_reg_v2(0x01, buffer,1);
+        id_midd = buffer[1]; ///////////////////////0x81
+        read_reg_v2(0x02, buffer,1);
+        id_low = buffer[2]; ////////////////////////0x00
+       // id = (id_midd &lt;&lt; 8) | id_low;
+
+#ifdef BUILD_LK
+    printf("[erick-lk]%s,  9881 id = 0x%08x,0x%08x\n", __func__, id_high,id_midd);
+#else
+    printk("[erick-k]%s,  9881 id = 0x%08x,0x%08x\n", __func__, id_high,id_midd);
+#endif
+	if((0x98 == id_high)&&(0x81 == id_midd))
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+    //return (0x98 == id_high)?1:0;
 }
 
 LCM_DRIVER lili9881c_cpt50_hlt_hd_lcm_drv =
