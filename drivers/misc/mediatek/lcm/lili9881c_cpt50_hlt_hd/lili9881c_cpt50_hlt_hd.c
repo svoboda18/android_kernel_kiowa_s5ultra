@@ -1,16 +1,6 @@
-
 #include <linux/string.h>
-#include <linux/gpio.h>
-#include <linux/pinctrl/consumer.h>
+#include <linux/kernel.h>
 #include "lcm_drv.h"
-#include <mt-plat/mt_gpio.h>
-#include <mt-plat/mt_gpio_core.h>
-
-static LCM_UTIL_FUNCS lcm_util;
-
-#define SET_RESET_PIN(v)    					 	(lcm_util.set_reset_pin((v)))
-#define MDELAY(n) 								     	(lcm_util.mdelay(n))
-#define UDELAY(n) 							  			(lcm_util.udelay(n))
 
 // ---------------------------------------------------------------------------
 //  Local Functions
@@ -18,36 +8,23 @@ static LCM_UTIL_FUNCS lcm_util;
 
 #define dsi_set_cmdq_V2(cmd, count, ppara, force_update)	lcm_util.dsi_set_cmdq_V2(cmd, count, ppara, force_update)
 #define dsi_set_cmdq(pdata, queue_size, force_update)		lcm_util.dsi_set_cmdq(pdata, queue_size, force_update)
-#define wrtie_cmd(cmd)										lcm_util.dsi_write_cmd(cmd)
-#define write_regs(addr, pdata, byte_nums)					lcm_util.dsi_write_regs(addr, pdata, byte_nums)
-#define read_reg(cmd)										lcm_util.dsi_dcs_read_lcm_reg(cmd)
-#define read_reg_v2(cmd, buffer, buffer_size)   			lcm_util.dsi_dcs_read_lcm_reg_v2(cmd, buffer, buffer_size)
+#define wrtie_cmd(cmd)						lcm_util.dsi_write_cmd(cmd)
+#define write_regs(addr, pdata, byte_nums)			lcm_util.dsi_write_regs(addr, pdata, byte_nums)
+#define read_reg(cmd)						lcm_util.dsi_dcs_read_lcm_reg(cmd)
+#define read_reg_v2(cmd, buffer, buffer_size)   		lcm_util.dsi_dcs_read_lcm_reg_v2(cmd, buffer, buffer_size)
 
 // ---------------------------------------------------------------------------
 //  Local Constants
 // ---------------------------------------------------------------------------
 
+static LCM_UTIL_FUNCS lcm_util = {0};
+
 #define REGFLAG_DELAY             (0xFE)
 #define REGFLAG_END_OF_TABLE      (0x100)  // END OF REGISTERS MARKER
 
-// ---------------------------------------------------------------------------
-//  Local Variables
-// ---------------------------------------------------------------------------
-
-#define _LCM_DEBUG_
-
-#ifdef _LCM_DEBUG_
-#define lcm_debug(fmt, args...) printk(fmt, ##args)
-#else
-#define lcm_debug(fmt, args...) do { } while (0)
-#endif
-
-#ifdef _LCM_INFO_
-#define lcm_info(fmt, args...) printk(fmt, ##args)
-#else
-#define lcm_info(fmt, args...) do { } while (0)
-#endif
-#define lcm_err(fmt, args...) printk(fmt, ##args)
+#define SET_RESET_PIN(v)    			(lcm_util.set_reset_pin((v)))
+#define MDELAY(n) 			    	(lcm_util.mdelay(n))
+#define UDELAY(n) 				(lcm_util.udelay(n))
 
 // ---------------------------------------------------------------------------
 //  Local Functions
@@ -348,7 +325,7 @@ static void lcm_init(void)
   SET_RESET_PIN(1);
   MDELAY(10);
   SET_RESET_PIN(0);
-  MDELAY(20);
+  MDELAY(50);
   SET_RESET_PIN(1);
   MDELAY(120);
   push_table(lcm_init_setting, sizeof(lcm_init_setting) / sizeof(struct LCM_setting_table), 1);
@@ -416,7 +393,7 @@ static unsigned int lcm_compare_id(void)
     //return (0x98 == id_high)?1:0;
 }
 
-LCM_DRIVER lili9881c_cpt50_hlt_hd_lcm_drv =
+LCM_DRIVER lili9881c_cpt50_hlt_hd =
 {
         .name           = "lili9881c_cpt50_hlt_hd",
 	.set_util_funcs = lcm_set_util_funcs,

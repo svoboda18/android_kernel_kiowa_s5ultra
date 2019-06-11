@@ -24,7 +24,7 @@ LCM_DRIVER *lcm_driver_list[] = {
 	&lcm_common_drv,
 #else
 #if defined(LILI9881C_CPT50_HLT_HD)
-	&lili9881c_cpt50_hlt_hd_lcm_drv,
+	&lili9881c_cpt50_hlt_hd,
 #endif
 #endif
 };

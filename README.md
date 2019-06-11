@@ -1,9 +1,9 @@
 #       **Kernel source 3.18 for KIOWA S5 ULTRA**
 * **Project name:** s5_ultra
 
-![THL](https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ4kPoy-JH4PxnKe_yMzUSCZIl59vusi3CYjRDxbXVNoYrtQy6L)
+![THL](http://www.kiowa.dz/images/photos/phone/s5u/s5u.png)
 
-Device spec | _
+Device spec | Spec sheet
 ------------ | -------------
 CPU:  |  MT6737M
 GPU: |  Mali-T720 MP2
