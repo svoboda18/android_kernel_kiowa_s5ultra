@@ -23,8 +23,8 @@ LCM_DRIVER *lcm_driver_list[] = {
 #if defined(MTK_LCM_DEVICE_TREE_SUPPORT)
 	&lcm_common_drv,
 #else
-#if defined(LILI9881C_CPT50_HLT_HD)
-	&lili9881c_cpt50_hlt_hd,
+#if defined(ILI9881C_CPT50_HLT_HD)
+	&ili9881c_cpt50_hlt_hd_lcm_drv,
 #endif
 #endif
 };
