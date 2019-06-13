@@ -236,13 +236,15 @@
 	tpd-filter-custom-prameters = <0 0 0 0 0 0 0 0 0 0 0 0>;
 	tpd-filter-custom-speed = <0 0 0>;
 	pinctrl-names = "default", "state_eint_as_int", "state_eint_output0", "state_eint_output1",
-		"state_rst_output0", "state_rst_output1";
+		"state_rst_output0", "state_rst_output1", "state_ldoen_output0", "state_ldoen_output1";
 	pinctrl-0 = <&CTP_pins_default>;
 	pinctrl-1 = <&CTP_pins_eint_as_int>;
 	pinctrl-2 = <&CTP_pins_eint_output0>;
 	pinctrl-3 = <&CTP_pins_eint_output1>;
 	pinctrl-4 = <&CTP_pins_rst_output0>;
 	pinctrl-5 = <&CTP_pins_rst_output1>;
+        pinctrl-6 = <&CTP_pins_ldoen_output0>;
+        pinctrl-7 = <&CTP_pins_ldoen_output1>;
 	status = "okay";
 };
 &pio {
@@ -282,6 +284,20 @@
 			slew-rate = <1>;
 			output-high;
 		};
+	};
+        CTP_pins_ldoen_output0: ldoenoutput0 {
+                pins_cmd_dat {
+                        pins = <PINMUX_GPIO92__FUNC_GPIO92>;
+                        slew-rate = <1>;
+                        output-low;
+                };
+        };
+        CTP_pins_ldoen_output1: ldoenoutput1 {
+                pins_cmd_dat {
+                        pins = <PINMUX_GPIO92__FUNC_GPIO92>;
+                        slew-rate = <1>;
+                        output-high;
+                };
 	};
 };
 /* TOUCH end */

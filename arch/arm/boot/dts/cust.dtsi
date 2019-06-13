@@ -206,7 +206,7 @@
 	mediatek,kpd-sw-pwrkey = <116>;
 	mediatek,kpd-hw-pwrkey = <8>;
 	mediatek,kpd-sw-rstkey  = <115>;
-	mediatek,kpd-hw-rstkey = <17>;
+	mediatek,kpd-hw-rstkey = <1>;
 	mediatek,kpd-use-extend-type = <0>;
 	/*HW Keycode [0~71] -> Linux Keycode*/
 	mediatek,kpd-hw-map-num = <72>;
@@ -215,10 +215,10 @@
 				0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 >;
 	mediatek,kpd-pwrkey-eint-gpio = <0>;
 	mediatek,kpd-pwkey-gpio-din  = <0>;
-	mediatek,kpd-hw-dl-key0 = <17>;
+	mediatek,kpd-hw-dl-key0 = <1>;
 	mediatek,kpd-hw-dl-key1 = <0>;
 	mediatek,kpd-hw-dl-key2 = <8>;
-	mediatek,kpd-hw-recovery-key = <17>;
+	mediatek,kpd-hw-recovery-key = <1>;
 	mediatek,kpd-hw-factory-key = <0>;
 	status = "okay";
 };
@@ -259,6 +259,11 @@
 	i2c_lcd_bias@3e {
 		compatible = "mediatek,i2c_lcd_bias";
 		reg = <0x3e>;
+		status = "okay";
+	};
+	swithing_charger@6a {
+		compatible = "mediatek,swithing_charger";
+		reg = <0x6a>;
 		status = "okay";
 	};
 };
